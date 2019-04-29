@@ -37,8 +37,20 @@ module.exports = {
      * print out the current Auto Scaling Group information
      */
     printAsgInfo(cluster, print)
-    // await toolbox.prompt.confirm('Do you want to rotate this Auto Scaling Group?')
-
+    await toolbox.prompt.confirm('Do you want to rotate this Auto Scaling Group?')
+    const spinner = toolbox.print.spin()
+    AutoScalingRotation.on('ROTATION_START', startTime => {
+      spinner.start(`Start to rotate instances in Auto Scaling Group ${asgId} at ${startTime}`)
+    })
+    AutoScalingRotation.on('INSTANCE_BEING_DETACHED', instanceId => {
+      spinner.start(`Instance ${instanceId} is being detached`)
+    })
+    AutoScalingRotation.on('AWAITING_PENDING_INSTANCE', (instanceId, progress) => {
+      spinner.start(`Await pending instance ${instanceId}(${progress})`)
+    })
+    AutoScalingRotation.on('INSTANCE_DETACHED', instanceId => {
+      spinner.succeed(`Instance ${instanceId} is detached`)
+    })
     AutoScalingRotation.on('INSTANCE_DETACHED', terminateInstances)
     AutoScalingRotation.start(asgId, region)
   }

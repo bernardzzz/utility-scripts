@@ -97,7 +97,6 @@ exports.terminateInstances = (instanceId, region) => new Promise((resolve, rejec
       reject(err)
     }
     if (data) {
-      console.log(`${instanceId} is terminated`)
       resolve(data)
     }
   })
