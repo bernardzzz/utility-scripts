@@ -23,7 +23,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.436.0",
+    "aws-sdk": "^2.814.0",
     "gluegun": "^2.1.0"
   },
   "devDependencies": {
